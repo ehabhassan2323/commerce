@@ -17,9 +17,9 @@ class CategoryScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ConditionalBuilder(
-              condition: cubit.homeModel != null &&  cubit.categoryModel != null,
-              builder:(context)=> ListView.builder(itemBuilder: (context, index) => buildCategory(cubit.categoryModel!.data!.data[index]),
-           itemCount: cubit.categoryModel!.data!.data.length),
+                condition: cubit.homeModel != null &&  cubit.categoryModel != null,
+                builder:(context)=> ListView.builder(itemBuilder: (context, index) => buildCategory(cubit.categoryModel!.data!.data[index],context),
+                    itemCount: cubit.categoryModel!.data!.data.length),
                 fallback: (context) => Center(child: CircularProgressIndicator())
             ),
           ),
@@ -27,30 +27,30 @@ class CategoryScreen extends StatelessWidget {
       },
     );
   }
-  Widget buildCategory(DataModel model) {
+  Widget buildCategory(DataModel model, context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           Container(
-           width: double.infinity,
-            height: 150,
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height*.14,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft:  Radius.circular(30),topRight:  Radius.circular(30)),
-             image: DecorationImage(
-               image: NetworkImage(model.image!),
-               fit: BoxFit.fill
-             ),
+              image: DecorationImage(
+                  image: NetworkImage(model.image!),
+                  fit: BoxFit.fill
+              ),
             ),
           ),
           Container(
             width: double.infinity,
-            height: 60,
+            height: MediaQuery.of(context).size.height*.06,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)),
-              color: Colors.teal[400]!.withOpacity(.5)
+                color: Colors.teal[400]!.withOpacity(.5)
             ),
-            child: Center(child: Text(model.name!,style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),)),
+            child: Center(child: Text(model.name!,style:TextStyle(color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),)),
           ),
         ],
       ),

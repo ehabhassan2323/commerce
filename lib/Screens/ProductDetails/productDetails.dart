@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shop_app/Layout/cubit/layoutcubit.dart';
 import 'package:shop_app/Layout/cubit/states.dart';
+import 'package:shop_app/Screens/CartScreen/CartScreen.dart';
 import 'package:shop_app/Screens/HowOrder/howOrder.dart';
 import 'package:shop_app/const/const.dart';
 import 'package:shop_app/models/homeModel.dart';
@@ -10,10 +11,11 @@ import 'package:shop_app/models/homeModel.dart';
 class ProductDetails extends StatelessWidget {
   final ProductsModel model;
 
-  const ProductDetails(this.model);
+  ProductDetails(  this.model);
 
   @override
   Widget build(BuildContext context) {
+    var cubit = ShopCubit.get(context);
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -31,9 +33,9 @@ class ProductDetails extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * .6,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                        image: NetworkImage(model.image!),
-                        fit: BoxFit.fill,
-                      )),
+                            image: NetworkImage(model.image!),
+                            fit: BoxFit.fill,
+                          )),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -76,7 +78,7 @@ class ProductDetails extends StatelessWidget {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                    color: Colors.grey[200]!.withOpacity(.9),
+                  color: Colors.grey[200]!.withOpacity(.9),
                   padding: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,33 +87,50 @@ class ProductDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('Price: ',
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: defaultColor,
-                          ),
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: defaultColor,
+                            ),
                           ),
                           Text(model.price.toString(),
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: defaultColor,
-                          ),
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: defaultColor,
+                            ),
                           ),
                           if(model.discount>0)
-                          Text(model.oldPrice.toString(),
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough
-                          ),
-                          ),
+                            Text(model.oldPrice.toString(),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.lineThrough
+                              ),
+                            ),
                         ],
                       ),
                       SizedBox(height: 20,),
                       button(onPress: ()
                       {
-                        navigateToPush(context , HowOrder(model));
+                        if( cubit.cartModel!.data!.cartItem.isNotEmpty)
+                        {
+                          ShopCubit.get(context).changeCarts(model.id!);
+                          if(ShopCubit.get(context).cart[model.id]!)
+                          {
+                            showToast(msg: 'added to cart successfuly ' );
+                            navigateToPush(context , CartScreen());
+                          }else
+                          {
+                            showToast(msg: 'deleted to cart successfuly ' );
+                          }
+
+
+                        }else
+                        {
+                          navigateToPushReplacement(context , HowOrder( model: model,));
+                        }
+
                       },
-                          name:'Order it ',
+                          name:ShopCubit.get(context).cart[model.id]!?'remove from cart':'Order it ',
                           width: 300),
                       SizedBox(height: 20,),
                       Text('Description : ',
@@ -122,22 +141,22 @@ class ProductDetails extends StatelessWidget {
                       ),
                       SizedBox(height: 10,),
                       ReadMoreText(
-                          model.description!,
+                        model.description!,
                         style: TextStyle(
                             color: Colors.black87,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600
                         ),
-                       lessStyle: TextStyle(
-                         color: defaultColor,
-                         fontSize: 20,
-                         fontWeight: FontWeight.bold
-                       ),
-                       moreStyle:TextStyle(
-                         color: defaultColor,
-                         fontSize: 15,
-                         fontWeight: FontWeight.bold
-                       ),
+                        lessStyle: TextStyle(
+                            color: defaultColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                        moreStyle:TextStyle(
+                            color: defaultColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
                     ],
                   ),

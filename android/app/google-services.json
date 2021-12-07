@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "377232583488",
+    "project_id": "peza-app-b29c2",
+    "storage_bucket": "peza-app-b29c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377232583488:android:534419f3f7c3a58f1568a5",
+        "android_client_info": {
+          "package_name": "com.example.shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377232583488-6i3iuu6du2hv995shoethp454ca3dtsc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shop_app",
+            "certificate_hash": "91804a20883d973e9ab6dca1317f6e92470cf849"
+          }
+        },
+        {
+          "client_id": "377232583488-ns9tuogfo3574vvp56ui4q9eauvnlnds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5RT8Ibye1g3tSFgiRxqa_tf0ORxV8-4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377232583488-ns9tuogfo3574vvp56ui4q9eauvnlnds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,4 +9,5 @@ const PROFILE = 'profile' ;
 const REGISTER = 'register' ;
 const SETTINGS = 'settings' ;
 const CONTACTS = 'contacts' ;
+const CART = 'carts' ;
 

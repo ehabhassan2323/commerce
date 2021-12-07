@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/Dio/diohelper.dart';
 import 'package:shop_app/Layout/cubit/states.dart';
 import 'package:shop_app/Network/endpoints.dart';
+import 'package:shop_app/Network/sharedPerference/sharedPerference.dart';
+import 'package:shop_app/Screens/CartScreen/CartScreen.dart';
 import 'package:shop_app/Screens/category/category.dart';
-import 'package:shop_app/Screens/favorite/favourite.dart';
 import 'package:shop_app/Screens/product/product.dart';
 import 'package:shop_app/Screens/setting/setting.dart';
 import 'package:shop_app/const/const.dart';
+import 'package:shop_app/models/CartModel.dart';
 import 'package:shop_app/models/LoginModel.dart';
 import 'package:shop_app/models/categoeyModel.dart';
 import 'package:shop_app/models/contactModel.dart';
@@ -19,19 +21,28 @@ import 'package:shop_app/models/settingModel.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitState());
-
   static ShopCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
+  //take it
+  var customNameTakeIT = TextEditingController(text: CashHelper.getData('name'));
+  var customPhoneTakeIT = TextEditingController(text: CashHelper.getData('phone'));
 
-  var customName = TextEditingController();
-  var customPhone = TextEditingController();
-  var customHome = TextEditingController();
-  var customRoad= TextEditingController();
-  var customBloc= TextEditingController();
-  var customArea= TextEditingController();
+
+  //delivery
+  var customName = TextEditingController(text:  CashHelper.getData('name') );
+  var customPhone = TextEditingController(text:  CashHelper.getData('phone'));
+  var customHome = TextEditingController(text:  CashHelper.getData('home'));
+  var customRoad= TextEditingController(text:  CashHelper.getData('road'));
+  var customBloc= TextEditingController(text:  CashHelper.getData('bloc'));
+  var customArea= TextEditingController(text:  CashHelper.getData('area'));
+
+  //Card controller
+  var cardNumber= TextEditingController(text: CashHelper.getData('cardNumber'));
+  var expiryMonth= TextEditingController(text: CashHelper.getData('expiryMonth'));
+  var expiryYear= TextEditingController(text: CashHelper.getData('expiryYear'));
+
   double delivery = .500 ;
-  double? total ;
 
 
 
@@ -39,20 +50,27 @@ class ShopCubit extends Cubit<ShopStates> {
   List<Widget> screens = [
     CategoryScreen(),
     ProductScreen(),
-    FavouriteScreen(),
+    CartScreen(),
     SettingScreen(),
   ];
+
 
   void changeItemButtonNavy(index) {
     currentIndex = index;
     emit(ShopChangeButtonNavState());
   }
 
+
   HomeModel? homeModel;
 
-   ProductsModel? productsModel;
+  ProductsModel? productsModel;
 
   Map<int, bool> favorite = {};
+
+  Map<int, bool> cart = {};
+
+  int? totalPerice  ;
+
 
 
   void getHomeData() {
@@ -64,7 +82,11 @@ class ShopCubit extends Cubit<ShopStates> {
           element.id!: element.inFavorites!
         });
       });
-      // print(homeModel!.data!.products[0].description);
+      homeModel!.data!.products.forEach((element) {
+        cart.addAll({
+          element.id!: element.inCart!
+        });
+      });
       emit(HomeSuccessState());
     }).catchError((error) {
       print('error is ${error.toString()}');
@@ -84,7 +106,56 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ChangeFavorite? changeFavorite;
+
+  CartModel? cartModel ;
+
+
+  CartData? model ;
+
+  void getCart()
+  {
+    emit(HomeLoadingGetCartState());
+    DioHelper.getData(
+      url: CART,
+      token: token,
+    ).then((value){
+      cartModel = CartModel.fromJson(value.data);
+      emit(HomeSuccessGetCartState());
+    }).catchError((error){
+      print('error is ${error.toString()}');
+      emit(HomeErrorGetCartState());
+    });
+  }
+
+   ChangeFavoriteCarts? changeCart;
+
+  void changeCarts(int productId,) {
+    cart[productId] = !cart[productId]!;
+    emit(HomeLoadingCartState());
+    DioHelper.postData(
+      url: CART,
+      token: token,
+      data: {
+        'product_id': productId,
+      },
+    ).then((value) {
+      changeCart = ChangeFavoriteCarts.fromJson(value.data);
+      if (!changeCart!.status!) {
+        cart[productId] = !cart[productId]!;
+      }
+      else {
+        getCart();
+      }
+      emit(HomeSuccessCartState(changeCart!));
+    }).catchError((error) {
+      print('error is ${error.toString()}');
+      cart[productId] = !cart[productId]!;
+      emit(HomeErrorCartState());
+    });
+  }
+
+
+  ChangeFavoriteCarts? changeFavorite;
 
   void changeFavorites(int productId,) {
     favorite[productId] = !favorite[productId]!;
@@ -96,8 +167,7 @@ class ShopCubit extends Cubit<ShopStates> {
         'product_id': productId,
       },
     ).then((value) {
-      changeFavorite = ChangeFavorite.fromJson(value.data);
-      print(value.data);
+      changeFavorite = ChangeFavoriteCarts.fromJson(value.data);
       if (!changeFavorite!.status!) {
         favorite[productId] = !favorite[productId]!;
       }
@@ -118,7 +188,8 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(HomeLoadingGetFavoritesState());
     DioHelper.getData(
         url: FAVORITES,
-        token: token).then((value) {
+        token: token
+    ).then((value) {
       favoritesModel = FavoritesModel.fromJson(value.data);
       emit(HomeSuccessGetFavoritesState());
     }).catchError((error) {
@@ -127,7 +198,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
- late LoginModel userData;
+  late LoginModel userData;
 
   void getProfile() {
     emit(HomeLoadingProfileState());
@@ -166,5 +237,7 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(HomeErrorContactState());
     });
   }
+
+
 }
 

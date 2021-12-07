@@ -19,7 +19,7 @@ class ContactUs extends StatelessWidget {
           appBar: AppBar(
             title: Image.asset(
               'assets/log1.png',
-              width: 180,
+              width: MediaQuery.of(context).size.width*.4,
             ),
             actions: [
               IconButton(
@@ -33,19 +33,20 @@ class ContactUs extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 15,
+                  width: MediaQuery.of(context).size.width*.04
               ),
             ],
           ),
           body: Column(
             children: [
-              SizedBox(height: 30,),
+              SizedBox(height: MediaQuery.of(context).size.height*.02,),
               Text('Contact Us ',
                 style: TextStyle(
                     fontSize: 20,
                     color: defaultColor,
                     fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height*.02,),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -63,35 +64,35 @@ class ContactUs extends StatelessWidget {
 }
 
 Widget listTitle(DataConModel model, index)
-  {
+{
 
 
-    List<String> name = [
-      'facebook',
-      'instagram',
-      'twitter',
-      'email',
-      'call',
-      'whatsapp',
-      'snapchat',
-      'youtube',
-      'website',
-    ];
-    return Container(
-      margin: EdgeInsets.all(10),
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[200],
-      ),
-      child: ListTile(
-        onTap: ()async
-        {
-           await launch(model.value!);
-        },
-        title: Text(name[index]),
-        trailing: Image.network(model.image!,color: defaultColor ,height: 100,width: 100,),
-      ),
-    );
+  List<String> name = [
+    'facebook',
+    'instagram',
+    'twitter',
+    'email',
+    'call',
+    'whatsapp',
+    'snapchat',
+    'youtube',
+    'website',
+  ];
+  return Container(
+    margin: EdgeInsets.all(10),
+    height: 80,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.grey[200],
+    ),
+    child: ListTile(
+      onTap: ()async
+      {
+        await launch(model.value!);
+      },
+      title: Text(name[index]),
+      trailing: Image.network(model.image!,color: defaultColor ,height: 100,width: 100,),
+    ),
+  );
 
-  }
+}

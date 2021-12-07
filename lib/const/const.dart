@@ -213,7 +213,7 @@ class CustomDialog extends StatelessWidget {
        BottomNavyBarItem(
            textAlign: TextAlign.center,
            title: Text('favourite') ,
-           icon: Icon(Icons.favorite),
+           icon: Icon(Icons.shopping_cart_sharp),
            activeColor: Colors.red,
            inactiveColor: Colors.grey
        ),

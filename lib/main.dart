@@ -11,36 +11,30 @@ import 'Network/sharedPerference/sharedPerference.dart';
 import 'const/blocobserver.dart';
 import 'const/const.dart';
 
-
-void main() async
-{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CashHelper.init();
   Widget widget;
-  bool? onBoarding ;
-   onBoarding =CashHelper.getData('OnBoarding');
-   token = CashHelper.getData('token');
+  bool? onBoarding;
+  onBoarding = CashHelper.getData('OnBoarding');
+  token = CashHelper.getData('token');
 
-  if (onBoarding != null)
-  {
+  if (onBoarding != null) {
     if (token != null)
       widget = LayoutScreen();
     else
       widget = LoginScreen();
-  }
-     else
-  {
-       widget = OnBoarding();
+  } else {
+    widget = OnBoarding();
   }
 
-    runApp(MyApp(startScreen: widget,));
-
-
+  runApp(MyApp(
+    startScreen: widget,
+  ));
 }
-
 
 class MyApp extends StatelessWidget {
   final Widget startScreen;
@@ -48,13 +42,21 @@ class MyApp extends StatelessWidget {
   MyApp({
     required this.startScreen,
   });
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>ShopCubit()..getHomeData()..categoryData()..getFavorites()..getProfile()..getSetting().. getContact(),
+        BlocProvider(
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..categoryData()
+            ..getFavorites()
+            ..getProfile()
+            ..getSetting()
+            ..getContact()
+            ..getCart(),
         ),
       ],
       child: MaterialApp(
@@ -62,10 +64,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         darkTheme: ThemeData(
             textTheme: TextTheme(
-              bodyText1: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white
-              ),
+              bodyText1: TextStyle(fontSize: 18, color: Colors.white),
             ),
             primarySwatch: Colors.deepOrange,
             scaffoldBackgroundColor: Colors.grey,
@@ -82,18 +81,15 @@ class MyApp extends StatelessWidget {
               backwardsCompatibility: false,
               systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: darkColor,
-                  statusBarIconBrightness: Brightness.light
-              ),
+                  statusBarIconBrightness: Brightness.light),
               backgroundColor: darkColor,
               elevation: 0,
               centerTitle: true,
               titleTextStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 25,
-
               ),
-            )
-        ),
+            )),
         theme: ThemeData(
             primarySwatch: Colors.deepOrange,
             floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -103,7 +99,6 @@ class MyApp extends StatelessWidget {
               selectedItemColor: darkColor,
               type: BottomNavigationBarType.fixed,
             ),
-
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: AppBarTheme(
               iconTheme: IconThemeData(
@@ -119,20 +114,15 @@ class MyApp extends StatelessWidget {
                   headline6: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: darkColor,
-                      fontSize: 25
-                  )
-              ),
+                      fontSize: 25)),
               elevation: 0,
               centerTitle: true,
               titleTextStyle: TextStyle(
                 color: darkColor,
                 fontSize: 25,
               ),
-            )
-
-        ),
+            )),
         home: startScreen,
-
       ),
     );
   }

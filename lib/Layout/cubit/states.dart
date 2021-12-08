@@ -65,3 +65,7 @@ class HomeErrorCartState extends ShopStates{}
 // quantity
 class Plus extends ShopStates{}
 class Minus extends ShopStates{}
+
+//
+class HomeSuccessAddressesState extends ShopStates{}
+class HomeErrorAddressesState extends ShopStates{}

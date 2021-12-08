@@ -187,6 +187,7 @@ class CustomDialog extends StatelessWidget {
  {
    ShopCubit cubit = BlocProvider.of(context);
    return BottomNavyBar(
+
      containerHeight: 80,
      showElevation: false,
      iconSize: 30,

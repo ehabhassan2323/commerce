@@ -93,8 +93,8 @@ Widget productBuilder(HomeModel? model, context) => SingleChildScrollView(
         GridView.count(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 18,
-          crossAxisSpacing: 7,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 2,
           childAspectRatio: 1 / 1.6,
           crossAxisCount: 2,
           children: List.generate(
@@ -149,7 +149,7 @@ Widget buildProduct(
               color: Colors.grey,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(7.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -164,41 +164,43 @@ Widget buildProduct(
                   SizedBox(
                     height: 2,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        '${model.price} BD ',
-                        style: TextStyle(height: 1.4, color: defaultColor),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      if (model.discount != 0)
+                  Container(
+                    child: Row(
+                      children: [
                         Text(
-                          '${model.oldPrice}',
-                          style: TextStyle(
-                              height: 1.3,
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough),
+                          '${model.price} BD ',
+                          style: TextStyle( color: defaultColor , ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
-                      Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          ShopCubit.get(context).changeFavorites(model.id!);
-                          if (ShopCubit.get(context).favorite[model.id]!) {
-                            showToast(msg: 'added successfuly');
-                          } else {
-                            showToast(msg: 'deleted successfuly');
-                          }
-                        },
-                        iconSize: 33,
-                        icon: Icon(Icons.favorite),
-                        color: ShopCubit.get(context).favorite[model.id]!
-                            ? Colors.red
-                            : Colors.grey,
-                      ),
-                    ],
+                        if (model.discount != 0)
+                          Text(
+                            '${model.oldPrice}',
+                            style: TextStyle(
+                                color: Colors.grey,
+
+                                decoration: TextDecoration.lineThrough),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        Spacer(),
+                        IconButton(
+                          onPressed: () {
+                            ShopCubit.get(context).changeFavorites(model.id!);
+                            if (ShopCubit.get(context).favorite[model.id]!) {
+                              showToast(msg: 'added successfuly');
+                            } else {
+                              showToast(msg: 'deleted successfuly');
+                            }
+                          },
+                          iconSize: 30,
+                          icon: Icon(Icons.favorite),
+                          color: ShopCubit.get(context).favorite[model.id]!
+                              ? Colors.red
+                              : Colors.grey,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

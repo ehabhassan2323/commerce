@@ -12,6 +12,7 @@ import 'package:shop_app/Screens/setting/setting.dart';
 import 'package:shop_app/const/const.dart';
 import 'package:shop_app/models/CartModel.dart';
 import 'package:shop_app/models/LoginModel.dart';
+import 'package:shop_app/models/adresses.dart';
 import 'package:shop_app/models/categoeyModel.dart';
 import 'package:shop_app/models/contactModel.dart';
 import 'package:shop_app/models/favoriteModel.dart';
@@ -238,6 +239,25 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
+ Addresses? addresses;
+
+   void getAddresses()
+   {
+     DioHelper.postData(url: ADDRESSES , data:{
+       'name': customName.text,
+       'city': customBloc.text,
+       'region': customRoad.text,
+       'details': customHome.text,
+       'note': customArea.text,
+     }).then((value){
+        addresses = Addresses.fromJson(value.data);
+        print(addresses);
+        emit(HomeSuccessAddressesState());
+     }).catchError((error){
+       print('error is ${error.toString()}');
+       emit(HomeErrorAddressesState());
+     });
+   }
 
 }
 

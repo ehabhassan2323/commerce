@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/Layout/LayoutScreen.dart';
+import 'package:shop_app/Layout/cubit/layoutcubit.dart';
 import 'package:shop_app/Network/sharedPerference/sharedPerference.dart';
 import 'package:shop_app/Screens/loginScreen/cubit/loginCubit.dart';
 import 'package:shop_app/Screens/loginScreen/cubit/LoginStates.dart';
@@ -127,6 +128,7 @@ class LoginScreen extends StatelessWidget {
                                     LoginCubit.get(context).userLogin(
                                         email: emailController.text,
                                         password: passwordController.text);
+                                      ShopCubit.get(context).currentIndex = 0;
                                     print(emailController.text);
                                     print(passwordController.text);
                                   }

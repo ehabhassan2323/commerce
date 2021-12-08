@@ -20,57 +20,59 @@ class SettingScreen extends StatelessWidget {
       listener: (context , state ){},
       builder:(context,state) {
 
-        return Container(
-          width: double.infinity,
-          // color: Colors.grey,
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
-              circleAvatar(
-                  onPress: (){},
-                size: 50,
-                imageName: 'assets/1.png',
-              ),
-              SizedBox(height: 20,) ,
-              Text(
-                 ShopCubit.get(context).userData.data!.name,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
+        return SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            // color: Colors.grey,
+            child: Column(
+              children: [
+                SizedBox(height: 20,),
+                circleAvatar(
+                    onPress: (){},
+                  size: 50,
+                  imageName:'assets/1.png',
                 ),
-              ),
-              Divider(height: 20,color: Colors.black26,thickness: 2,),
-              ListTile(
-                leading: Icon(Icons.info_outlined, color: Colors.black,),
-                title: Text(' about us', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-                trailing: Icon(Icons.arrow_forward_ios_outlined, color: Colors.black,),
-              onTap: ()
-              {
-                navigateToPush(context, AboutUs());
-              },
-              ),
-              SizedBox(height: 30,),
-              ListTile(
-                leading: Icon(Icons.privacy_tip, color: Colors.black,),
-                title: Text(' Terms& condtion', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-                trailing: Icon(Icons.arrow_forward_ios_outlined, color: Colors.black,),
-              onTap: ()
-              {
-                navigateToPush(context, Terms());
-              },
-              ),
-          SizedBox(height: 40,),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: button(
-                      onPress: ()
-                      {
-                        signOut(context);
-                      },
-                      name: ' sign out ' ,
-                    ),
-          ),
-            ],
+                SizedBox(height: 20,) ,
+                Text(
+                   ShopCubit.get(context).userData.data!.name,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                Divider(height: 20,color: Colors.black26,thickness: 2,),
+                ListTile(
+                  leading: Icon(Icons.info_outlined, color: Colors.black,),
+                  title: Text(' about us', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                  trailing: Icon(Icons.arrow_forward_ios_outlined, color: Colors.black,),
+                onTap: ()
+                {
+                  navigateToPush(context, AboutUs());
+                },
+                ),
+                SizedBox(height: 30,),
+                ListTile(
+                  leading: Icon(Icons.privacy_tip, color: Colors.black,),
+                  title: Text(' Terms& condtion', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                  trailing: Icon(Icons.arrow_forward_ios_outlined, color: Colors.black,),
+                onTap: ()
+                {
+                  navigateToPush(context, Terms());
+                },
+                ),
+            SizedBox(height: 40,),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: button(
+                        onPress: ()
+                        {
+                          signOut(context);
+                        },
+                        name: ' sign out ' ,
+                      ),
+            ),
+              ],
+            ),
           ),
         );
       }

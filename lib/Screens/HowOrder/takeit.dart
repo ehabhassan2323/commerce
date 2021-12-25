@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/Layout/cubit/layoutcubit.dart';
@@ -103,137 +102,28 @@ class TakeIt extends StatelessWidget {
                     SizedBox(
                       height:MediaQuery.of(context).size.height*.03,
                     ),
-                    ConditionalBuilder(
-                      condition: cart!.data!.cartItem.isNotEmpty,
-                      builder:(context) => Column(
-                        children: [
-                          Container(
-                            height:MediaQuery.of(context).size.height*.3,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(20),topLeft:Radius.circular(20)
-                              ),
-                            ),
-                            child: ListView.builder(
-                              itemBuilder:(context , index )=> productDetails(cubit.cartModel!, index,context),
-                              itemCount: cubit.cartModel!.data!.cartItem.length,
-                            ),
-                          ),
-                        ],
-                      ),
-                      fallback: (context)=> Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Column(
-                          children: [
-                            Image.network(
-                              model!.image!,
-                              height: 150,
-                              width: 150,
-                              fit: BoxFit.fill,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                Text('Name Product:'),
-                                Spacer(),
-                                Expanded(
-                                  child: Text(
-                                    model!.name!,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text('Price:'),
-                                Spacer(),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    model!.price.toString(),
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text('delivery:'),
-                                Spacer(),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    cubit.delivery.toString(),
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text('total:'),
-                                Spacer(),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    '${model!.price + cubit.delivery}',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        ),
+                   Column(
+                children: [
+                  Container(
+                    height:MediaQuery.of(context).size.height*.3,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.only(topRight:Radius.circular(20),topLeft:Radius.circular(20)
                       ),
                     ),
-                    if(cart!.data!.cartItem.isNotEmpty)
+                    child: ListView.builder(
+                      itemBuilder:(context , index )=> productDetails(cubit.cartModel!, index,context),
+                      itemCount: cubit.cartModel!.data!.cartItem.length,
+                    ),
+                  ),
+                ],
+              ),
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height*.17,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(bottomLeft:Radius.circular(20),bottomRight:Radius.circular(20)),
                             color: Colors.grey[300]
-
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -247,7 +137,7 @@ class TakeIt extends StatelessWidget {
                                   ),),
                                   Spacer(),
                                   Text(
-                                    cubit.cartModel!.data!.total.toString(),
+                                    '${cubit.cartModel!.data!.total}' ,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 20
@@ -308,7 +198,7 @@ class TakeIt extends StatelessWidget {
                         {
                           await  CashHelper.saveData(key: 'name', value: cubit.customNameTakeIT.text);
                           await CashHelper.saveData(key: 'phone', value: cubit.customPhoneTakeIT.text);
-
+                          print(cubit.cartModel!.data!.total);
                           navigateToPush(context, PayScreen(cubit.cartModel!));
                         }
                       },
@@ -337,7 +227,7 @@ Widget productDetails (CartModel cart , index , context)
       height: MediaQuery.of(context).size.height*.14,
       width: double.infinity,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
         children:[
           Stack(
             children: [
@@ -373,7 +263,7 @@ Widget productDetails (CartModel cart , index , context)
                 Spacer(),
                 Row(
                   children: [
-                    Text( 'price : ${cart.data!.cartItem[index].product!.price}',
+                    Text( 'price : ${cart.data!.cartItem[index].product!.price*cart.data!.cartItem[index].quantity}',
                       style: TextStyle(height: 1.4, color: defaultColor ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,

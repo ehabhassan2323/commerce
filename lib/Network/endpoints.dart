@@ -10,5 +10,6 @@ const REGISTER = 'register' ;
 const SETTINGS = 'settings' ;
 const CONTACTS = 'contacts' ;
 const CART = 'carts' ;
+const QUANTITY = 'carts' ;
 const ADDRESSES = 'addresses' ;
 

@@ -34,7 +34,7 @@ class CategoryScreen extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height*.14,
+            height: MediaQuery.of(context).size.height*.13,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft:  Radius.circular(30),topRight:  Radius.circular(30)),
               image: DecorationImage(
@@ -45,7 +45,7 @@ class CategoryScreen extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height*.06,
+            height: MediaQuery.of(context).size.height*.05,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)),
                 color: Colors.teal[400]!.withOpacity(.5)

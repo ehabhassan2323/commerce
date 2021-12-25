@@ -4,7 +4,6 @@ class DioHelper
   {
     static late Dio dio ;
 
-
     static init()
     {
       dio = Dio(
@@ -50,4 +49,25 @@ class DioHelper
       };
       return await dio.post(url , queryParameters: query,data:data );
     }
+
+    static Future<Response> puttData({
+      required String url ,
+      Map<String,dynamic >? query ,
+      required Map<String,dynamic> data ,
+      String language = 'en',
+      String? token ,
+
+    }) async
+    {
+      dio.options.headers={
+        'Content-Type' : 'application/json',
+        'lang':language ,
+        'Authorization':token??'' ,
+
+      };
+      return await dio.put(url , queryParameters: query,data:data );
+    }
+
+
+
   }

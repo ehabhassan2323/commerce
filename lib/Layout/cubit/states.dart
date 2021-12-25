@@ -1,4 +1,3 @@
-import 'package:shop_app/models/CartModel.dart';
 import 'package:shop_app/models/favorites.dart';
 
 abstract class ShopStates{}
@@ -69,3 +68,15 @@ class Minus extends ShopStates{}
 //
 class HomeSuccessAddressesState extends ShopStates{}
 class HomeErrorAddressesState extends ShopStates{}
+
+// change switch setting
+class ChangeSwitch extends ShopStates{}
+
+// quantity change
+class QuantityPlus extends ShopStates{}
+class QuantityMinus extends ShopStates{}
+
+
+class HomeLoadingQuantityState extends ShopStates{}
+class HomeSuccessQuantityState extends ShopStates{}
+class HomeErrorQuantityState extends ShopStates{}

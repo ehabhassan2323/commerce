@@ -141,35 +141,6 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: 40,
                           ),
-                          Text(
-                            '-OR Sign in With-',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: defaultColor,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          // logo social media
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              circleAvatar(
-                                onPress: () {},
-                                imageName: 'assets/google.png',
-                              ),
-                              circleAvatar(
-                                  onPress: () {}, imageName: 'assets/face.png'),
-                              circleAvatar(
-                                  onPress: () {},
-                                  imageName: 'assets/insta.png'),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

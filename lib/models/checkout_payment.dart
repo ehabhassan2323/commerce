@@ -27,7 +27,7 @@ class CheckoutPayment
       'number' : card.number!,
       'expiry_month' : card.expiryMonth!,
       'expiry_year' : card.expiryYear!,
-    } ;
+  } ;
 
     var res =   await DioHelper.postData(url: tokenUrl, query: tokenHeader , data: data);
     switch(res.statusCode){
@@ -39,9 +39,11 @@ class CheckoutPayment
 
     }
   }
+
+
   Future<dynamic> makePayment (CardPayment card , int amount) async
   {
-    String token = await _getToken(card) ;
+    String token = await  _getToken(card) ;
     print( ' token is : $token');
 
     Map<String,dynamic> body ={
@@ -59,7 +61,8 @@ class CheckoutPayment
         print(data['amount']);
         return true ;
       default :
-        throw Exception(' Payment failed please try again  ');
+        throw Exception(' Payment failed please try again ');
     }
   }
+
 }

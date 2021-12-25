@@ -24,6 +24,9 @@ class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitState());
   static ShopCubit get(context) => BlocProvider.of(context);
 
+  bool switchValue = true ;
+
+
   int currentIndex = 0;
   //take it
   var customNameTakeIT = TextEditingController(text: CashHelper.getData('name'));
@@ -42,6 +45,9 @@ class ShopCubit extends Cubit<ShopStates> {
   var cardNumber= TextEditingController(text: CashHelper.getData('cardNumber'));
   var expiryMonth= TextEditingController(text: CashHelper.getData('expiryMonth'));
   var expiryYear= TextEditingController(text: CashHelper.getData('expiryYear'));
+
+
+  var quantityController= TextEditingController();
 
   double delivery = .500 ;
 
@@ -79,7 +85,7 @@ class ShopCubit extends Cubit<ShopStates> {
     DioHelper.getData(url: HOME, token: token).then((value) {
       homeModel = HomeModel.fromJson(value.data);
       homeModel!.data!.products.forEach((element) {
-        favorite.addAll({
+        favorite.addAll( {
           element.id!: element.inFavorites!
         });
       });
@@ -110,8 +116,39 @@ class ShopCubit extends Cubit<ShopStates> {
 
   CartModel? cartModel ;
 
-
   CartData? model ;
+
+
+  void quantity(int quantity,int id)
+  {
+    emit(HomeLoadingQuantityState());
+     DioHelper.puttData(
+         url: QUANTITY+"/$id",
+         data:
+         {
+           'quantity':quantity
+         }
+         ).then((value){
+           cartModel = CartModel.fromJson(value.data);
+           emit(HomeSuccessQuantityState());
+     }).catchError((error){
+       print('error is $error');
+       emit(HomeErrorQuantityState());
+     });
+  }
+
+  void quantityPlus(index)
+  {
+     cartModel!.data!.cartItem[index].quantity = cartModel!.data!.cartItem[index].quantity! +1 ;
+     emit(QuantityPlus());
+  }
+
+  void quantityMinus(index)
+  {
+    cartModel!.data!.cartItem[index].quantity = cartModel!.data!.cartItem[index].quantity! -1 ;
+    emit(QuantityMinus());
+  }
+
 
   void getCart()
   {
@@ -185,7 +222,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   FavoritesModel? favoritesModel;
 
-  void getFavorites() {
+  void getFavorites(){
     emit(HomeLoadingGetFavoritesState());
     DioHelper.getData(
         url: FAVORITES,
@@ -258,6 +295,13 @@ class ShopCubit extends Cubit<ShopStates> {
        emit(HomeErrorAddressesState());
      });
    }
+
+   void changeSwitch(bool value)
+   {
+     switchValue = value ;
+     emit(ChangeSwitch());
+   }
+
 
 }
 

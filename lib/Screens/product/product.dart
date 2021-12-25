@@ -95,7 +95,7 @@ Widget productBuilder(HomeModel? model, context) => SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           mainAxisSpacing: 10,
           crossAxisSpacing: 2,
-          childAspectRatio: 1 / 1.6,
+          childAspectRatio: 1 / 1.4,
           crossAxisCount: 2,
           children: List.generate(
               model!.data!.products.length,
@@ -128,7 +128,7 @@ Widget buildProduct(
         child: Column(
           children: [
             Stack(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.topLeft,
               children: [
                 Image.network(
                   model!.image!,
@@ -136,10 +136,35 @@ Widget buildProduct(
                   height: 150,
                   // fit: BoxFit.fill,
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        ShopCubit.get(context).changeFavorites(model.id!);
+                        if (ShopCubit.get(context).favorite[model.id]!) {
+                          showToast(msg: 'added successfuly');
+                        } else {
+                          showToast(msg: 'deleted successfuly');
+                        }
+                      },
+                      iconSize: 30,
+                      icon: Icon(Icons.favorite),
+                      color: ShopCubit.get(context).favorite[model.id]!
+                          ? Colors.red
+                          : Colors.grey,
+                    ),
+                  ),
+                ),
                 if (model.discount != 0)
                   Container(
-                    color: Colors.red,
-                    width: 50,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red,
+                    ),
+                    width: 40,
                     child: Text('Offer', style: TextStyle(color: Colors.white)),
                   ),
               ],
@@ -183,22 +208,7 @@ Widget buildProduct(
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            ShopCubit.get(context).changeFavorites(model.id!);
-                            if (ShopCubit.get(context).favorite[model.id]!) {
-                              showToast(msg: 'added successfuly');
-                            } else {
-                              showToast(msg: 'deleted successfuly');
-                            }
-                          },
-                          iconSize: 30,
-                          icon: Icon(Icons.favorite),
-                          color: ShopCubit.get(context).favorite[model.id]!
-                              ? Colors.red
-                              : Colors.grey,
-                        ),
+
                       ],
                     ),
                   ),
@@ -216,10 +226,12 @@ Widget buildProduct(
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {
+                  onPressed: ()
+                  {
                     ShopCubit.get(context).changeCarts(model.id!);
 
-                    if (ShopCubit.get(context).cart[model.id]!) {
+                    if (ShopCubit.get(context).cart[model.id]!)
+                    {
                       showToast(msg: 'added successfuly');
                     }
                     else {

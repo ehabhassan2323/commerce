@@ -111,26 +111,18 @@ class ProductDetails extends StatelessWidget {
                       SizedBox(height: 20,),
                       button(onPress: ()
                       {
-                        if( cubit.cartModel!.data!.cartItem.isNotEmpty)
-                        {
-                          ShopCubit.get(context).changeCarts(model.id!);
-                          if(ShopCubit.get(context).cart[model.id]!)
-                          {
-                            showToast(msg: 'added to cart successfuly ' );
-                            navigateToPush(context , CartScreen());
-                          }else
-                          {
-                            showToast(msg: 'deleted to cart successfuly ' );
-                          }
+                        ShopCubit.get(context).changeCarts(model.id!);
 
-
-                        }else
+                        if (ShopCubit.get(context).cart[model.id]!)
                         {
-                          navigateToPushReplacement(context , HowOrder( model: model,));
+                          showToast(msg: 'added successfuly');
+                        }
+                        else {
+                          showToast(msg: 'deleted successfuly');
                         }
 
                       },
-                          name:ShopCubit.get(context).cart[model.id]!?'remove from cart':'Order it ',
+                          name:ShopCubit.get(context).cart[model.id]!?'remove from cart':'add to cart ',
                           width: 300),
                       SizedBox(height: 20,),
                       Text('Description : ',

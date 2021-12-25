@@ -30,7 +30,7 @@ class LayoutScreen extends StatelessWidget {
               IconButton(
                 onPressed:()
                 {
-                  navigateToPush(context , ContactUs()) ;
+                  navigateToPush(context , ContactUs());
                 },
                 icon: Icon(Icons.perm_contact_cal,color: defaultColor,size: 35,),
               ),

@@ -37,7 +37,7 @@ class CartScreen extends StatelessWidget {
                 condition: state is! HomeLoadingGetCartState,
                 builder: (context) =>  Expanded(
                   child: ListView.builder(
-                    itemBuilder: (context , index)=>  buildCart(cubit.cartModel!.data!.cartItem[index], context),
+                    itemBuilder: (context , index)=>  buildCart(cubit.cartModel!.data!.cartItem[index], context, index),
                     itemCount:  cubit.cartModel!.data!.cartItem.length ,
                   ),
                 ),
@@ -46,14 +46,14 @@ class CartScreen extends StatelessWidget {
               if( cubit.cartModel!.data!.cartItem.isNotEmpty)
               Container(
                 margin: EdgeInsets.all(30),
-                child: button(
-                  name: 'Order  ' ,
-                  onPress: ()
-                  {
-                    navigateToPush(context, HowOrder(model: model , cart:cubit.cartModel ));
-
-                  },
-                ),
+                child:
+                    button(
+                      name: 'Order  ' ,
+                      onPress:()
+                      {
+                        navigateToPush(context, HowOrder(model: model , cart:cubit.cartModel ));
+                      },
+                 ),
               ),
             ],
 
@@ -89,7 +89,7 @@ class CartScreen extends StatelessWidget {
 }
 
 
-Widget buildCart(CartData model , context){
+Widget buildCart(CartData model , context , index){
 
   return  Padding(
     padding: const EdgeInsets.only( top: 30, left: 15,right: 30),
@@ -139,58 +139,43 @@ Widget buildCart(CartData model , context){
                 Row(
                   children: [
                     TextButton(
-                      onPressed: ()
-                      {
-                      },
-                      child: Text('-',style: TextStyle(
-                          fontSize: 30
-                      ),),
+                        onPressed: (){
+                          ShopCubit.get(context).quantityMinus(index);
+                          ShopCubit.get(context).quantity( model.quantity!, model.id!);
+                        },
+                        child: Text('-' , style: TextStyle(fontSize: 35),)
                     ),
-                    SizedBox(width:MediaQuery.of(context).size.width*.01),
                     Text(
-                      model.quantity.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                      model.quantity.toString()
                     ),
                     TextButton(
-                      onPressed: ()
-                      {
-
-                      },
-                      child: Text('+', style: TextStyle(
-                          fontSize: 30
-                      ),
-                      ),
+                        onPressed: ()  {
+                          ShopCubit.get(context).quantityPlus(index);
+                         ShopCubit.get(context).quantity( model.quantity!, model.id!);
+                        },
+                        child: Text('+' , style: TextStyle(fontSize: 25),)
                     ),
+
                   ],
                 ),
                 Spacer(),
                 Row(
                   children:[
                     Text(
-                      model.product!.price.toString() ,
+                      " price : ${model.product!.price* model.quantity}" ,
                       style: TextStyle(color: defaultColor ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
                     SizedBox(width: 5,),
-                    if ( model.product!.discount > 0)
-                      Text(
-                        '${model.product!.oldPrice}' ,
-                        style: TextStyle(
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough),
-                        overflow: TextOverflow.ellipsis,
-                      ),
                     Spacer(),
                     IconButton(
                       onPressed: ()
                       {
                         ShopCubit.get(context).changeCarts(model.product!.id!);
                         if(!ShopCubit.get(context).cart[model.product!.id]!)
-                          showToast(msg: 'deleted successfuly');
-                      } ,
+                           showToast(msg: ' deleted successfuly ');
+                      },
                       iconSize: 33,
                       icon: Icon(Icons.delete),
                       color: ShopCubit.get(context).cart[model.product!.id]! ? Colors.red:Colors.grey,

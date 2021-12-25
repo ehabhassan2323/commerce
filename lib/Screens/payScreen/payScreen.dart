@@ -122,22 +122,26 @@ class _PayScreenState extends State<PayScreen> {
                     name: 'Pay' ,
                     onPress: ()
                     {
-                      if(form.currentState!.validate()) {
-                        CashHelper.saveData(
-                            key: 'cardNumber', value: cubit.cardNumber.text);
-                        CashHelper.saveData(
-                            key: 'expiryMonth', value: cubit.expiryMonth.text);
-                        CashHelper.saveData(
-                            key: 'expiryYear', value: cubit.expiryYear.text);
-                        CardPayment card = CardPayment(
-                          CashHelper.getData('cardNumber'),
-                          CashHelper.getData('expiryMonth'),
-                          CashHelper.getData('expiryYear'),
-                        );
-                        CheckoutPayment payment = CheckoutPayment();
-                        payment.makePayment(card, cubit.totalPerice!);
-                        navigateToPushReplacement(context, ConfirmOrder(cubit.cartModel!));
-                      }
+                          if(form.currentState!.validate())
+                          {
+                            CashHelper.saveData(
+                                key: 'cardNumber', value: cubit.cardNumber.text);
+                            CashHelper.saveData(
+                                key: 'expiryMonth', value: cubit.expiryMonth.text);
+                            CashHelper.saveData(
+                                key: 'expiryYear', value: cubit.expiryYear.text);
+                            CardPayment card = CardPayment(
+                              CashHelper.getData('cardNumber'),
+                              CashHelper.getData('expiryMonth'),
+                              CashHelper.getData('expiryYear'),
+                            );
+
+                            CheckoutPayment payment = CheckoutPayment();
+                            payment.makePayment(card, cubit.totalPerice!);
+                            navigateToPushReplacement(context, ConfirmOrder(cubit.cartModel!));
+                          }
+
+
                     }
                 ),
               ],

@@ -203,24 +203,6 @@ class SignupScreen extends StatelessWidget {
                          ),
                        ),
                        SizedBox(height: 20,),
-                       Text('-OR Sign up With-',
-                         style: TextStyle(
-                           fontSize: 15,
-                           fontWeight: FontWeight.bold,
-                           color: defaultColor,
-                         ),
-                       ),
-                       SizedBox(height: 30,),
-                       // logo social media
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                         children: [
-                           circleAvatar(onPress: (){},imageName: 'assets/google.png'),
-                           circleAvatar(onPress: (){},imageName: 'assets/face.png'),
-                           circleAvatar(onPress: (){},imageName: 'assets/insta.png'),
-                         ],
-                       ),
-
                      ],
                    ),
                  ),

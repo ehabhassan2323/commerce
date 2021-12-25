@@ -28,11 +28,12 @@ Widget textForm(
    String? label,
   bool secureText = false,
       var onSubmit ,
+      var onChange ,
       var suffixPressed,
       String? hint ,
 
 })=>TextFormField(
-  
+  onChanged: onChange,
   onFieldSubmitted:onSubmit ,
   validator: validator,
   controller:controller ,
@@ -213,7 +214,7 @@ class CustomDialog extends StatelessWidget {
        ),
        BottomNavyBarItem(
            textAlign: TextAlign.center,
-           title: Text('favourite') ,
+           title: Text('Cart') ,
            icon: Icon(Icons.shopping_cart_sharp),
            activeColor: Colors.red,
            inactiveColor: Colors.grey
